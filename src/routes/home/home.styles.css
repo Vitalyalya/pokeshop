@@ -1,0 +1,21 @@
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  padding-top: 30px;
+  gap: 20px;
+}
+
+h1 {
+  padding-top: 10px;
+}
+
+.dropdown-section {
+  margin-top: 30px;
+  display: flex;
+  gap: 30px;
+}
+
+.dropdown-menu {
+  min-width: 100px;
+}

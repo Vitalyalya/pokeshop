@@ -1,0 +1,26 @@
+.button-container {
+  letter-spacing: 0.5px;
+  padding: 7px 15px;
+  font-size: 14px;
+
+  border-radius: 5px;
+  background-color: #0d6efd;
+  color: white;
+
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-container:hover {
+  background-color: #0dcaf0;
+}
+
+.button-container:active {
+  scale: 0.92;
+}
+
+.form-button {
+  width: 100%;
+}

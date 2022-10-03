@@ -1,0 +1,57 @@
+.search-card-container {
+  position: absolute;
+  background-color: #fff;
+  width: 450px;
+  max-width: 300px;
+  z-index: 1;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.search-card-wrapper {
+  padding: 10px;
+
+  height: 90px;
+  width: 100%;
+  background-color: beige;
+  margin-top: 5px;
+
+  display: grid;
+  grid-template-columns: 1fr 3fr 1.5fr;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.pokemon-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.types-container {
+  display: flex;
+  gap: 5px;
+}
+
+.search-card-img img {
+  width: 70px;
+  height: 100%;
+}
+.search-card-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.search-card-name {
+  text-transform: capitalize;
+  margin-bottom: 0;
+}
+
+.badge {
+  margin-bottom: 0;
+}
