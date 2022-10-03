@@ -34,11 +34,16 @@ a {
   margin: 0 auto;
 }
 
-.container-sign-in {
+.sign-in-container,
+.sign-up-container {
   min-width: 500px;
   width: 30%;
   margin: 0 auto;
-  margin-top: 100px;
+  margin-top: 50px;
+}
+
+.centered {
+  text-align: center;
 }
 
 /* Firefox */

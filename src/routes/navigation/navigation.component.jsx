@@ -3,6 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 
 import SearchBox from "../../components/search-box/searchbox.component";
 import SearchCard from "../../components/search-card/search-card.component";
+import Button from "../../components/button/button.component";
 
 import { useState, useContext } from "react";
 
@@ -79,11 +80,11 @@ const Navigation = () => {
                 Contacts
               </Link>
             </li>
-            <Link type="submit" className="btn btn-info" to="/login">
-              Log In
+            <Link to="/login">
+              <Button buttonType="light">Log In</Button>
             </Link>
-            <Link type="submit" className="btn btn-primary" to="/sign-up">
-              Sign Up
+            <Link to="/sign-up">
+              <Button>Sign Up</Button>
             </Link>
             <li>
               <Link className="nav-link" to="/checkout">

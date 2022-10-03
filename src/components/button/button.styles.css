@@ -4,7 +4,7 @@
   font-size: 14px;
 
   border-radius: 5px;
-  background-color: #0d6efd;
+  background-color: #1258c1;
   color: white;
 
   text-transform: uppercase;
@@ -14,13 +14,17 @@
 }
 
 .button-container:hover {
-  background-color: #0dcaf0;
+  background-color: #508fed;
 }
 
 .button-container:active {
-  scale: 0.92;
+  scale: 0.98;
 }
 
 .form-button {
   width: 100%;
+}
+
+.light {
+  background-color: #3707f7;
 }
