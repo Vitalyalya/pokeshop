@@ -2,15 +2,25 @@
 import Card from "react-bootstrap/Card";
 import Button from "../button/button.component";
 
+import { useContext } from "react";
+import { CartContext } from "../../context/cart.context";
+
 const PokeCard = ({ pokemon }) => {
   const { name, id, type, evolution, price, legendary, discountPrice } =
     pokemon;
+
+  const { addItemToCart } = useContext(CartContext);
 
   let leg = "";
 
   legendary
     ? (leg = "border border-4 bg-warning")
     : (leg = "border border-4 bg-light");
+
+  const addPokemonToCart = () => {
+    // console.log(pokemon);
+    addItemToCart(pokemon);
+  };
 
   return (
     <Card className={leg} style={{ width: "15rem", margin: "0 auto" }}>
@@ -61,7 +71,7 @@ const PokeCard = ({ pokemon }) => {
           ) : (
             <h4 className="mb-0 ">{price} 円</h4>
           )}
-          <Button> Buy </Button>
+          <Button onClick={addPokemonToCart}> Buy </Button>
         </div>
       </Card.Body>
     </Card>

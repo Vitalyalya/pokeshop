@@ -5,6 +5,7 @@ import Home from "./routes/home/home.component";
 import LogInForm from "./components/login-form/login-form";
 import SignUp from "./routes/sign-up/sign-up.component";
 import Checkout from "./routes/checkout/checkout.component";
+import ProfilePage from "./routes/profile/profile.component";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="login/" element={<LogInForm />}></Route>
         <Route path="sign-up/" element={<SignUp />}></Route>
         <Route path="checkout/" element={<Checkout />}></Route>
+        <Route path="profile/" element={<ProfilePage />}></Route>
       </Route>
     </Routes>
   );

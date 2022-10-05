@@ -24,6 +24,14 @@
   width: 23%;
 }
 
+.evolution {
+  font-size: 18px;
+}
+
+.name {
+  text-transform: capitalize;
+}
+
 .quantity {
   display: flex;
 }

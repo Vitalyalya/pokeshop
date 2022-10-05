@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
@@ -17,25 +18,31 @@ const LogInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
+  const navigate = useNavigate();
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
 
   const signInWithGoogle = async () => {
-    // const { user } = await signInWithGooglePopup();
-    await signInWithGooglePopup();
+    const userName = await signInWithGooglePopup();
+
+    localStorage.setItem("user", userName.user.displayName);
+    navigate("/");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
+      const userName = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
+
       resetFormFields();
-      console.log(user);
+      localStorage.setItem("user", userName.user.displayName);
+      navigate("/");
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":

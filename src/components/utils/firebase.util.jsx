@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -42,6 +43,9 @@ export const createUserDocumentFromAuth = async (
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
+
+    console.log(userAuth);
+
     const createdAt = new Date();
     try {
       await setDoc(userDocRef, {
@@ -51,6 +55,7 @@ export const createUserDocumentFromAuth = async (
         orders: "null",
         ...additionalInformation,
       });
+      // console.log(userDocRef);
     } catch (error) {
       console.log("error creating the user", error.message);
     }
@@ -70,4 +75,39 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
-export const signOutUser = async () => await signOut(auth);
+export const signOutUser = async () => {
+  await signOut(auth);
+  localStorage.removeItem("user");
+  console.log("signed out");
+};
+
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
+
+export const getUserDocs = async (userAuth) => {
+  const docRef = doc(db, "users", userAuth.uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  }
+};
+
+export const addOrder = async (order, userAuth) => {
+  // console.log(order);
+
+  const userDocRef = doc(db, "users", userAuth.uid);
+
+  const docSnap = await getDoc(userDocRef);
+
+  const docWithNewOrder = docSnap.data().orders;
+
+  docWithNewOrder.push(JSON.stringify(order));
+
+  console.log(docWithNewOrder);
+
+  // const docWithNewOrder = { orders: "order 5" };
+
+  await setDoc(userDocRef, { orders: docWithNewOrder }, { merge: true });
+
+  // console.log(docSnap.data().orders);
+};

@@ -6,13 +6,19 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { PokeProvider } from "./context/pokemon.context";
+import { UserProvider } from "./context/user.context";
+import { CartProvider } from "./context/cart.context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
     <PokeProvider>
-      <App />
+      <UserProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </UserProvider>
     </PokeProvider>
   </BrowserRouter>
   // </React.StrictMode>

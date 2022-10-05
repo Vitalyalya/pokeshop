@@ -1,11 +1,12 @@
-import { Fragment } from "react";
 import { Outlet, Link } from "react-router-dom";
+import { useState, useContext, Fragment } from "react";
+import { signOutUser } from "./../../components/utils/firebase.util";
 
 import SearchBox from "../../components/search-box/searchbox.component";
 import SearchCard from "../../components/search-card/search-card.component";
 import Button from "../../components/button/button.component";
 
-import { useState, useContext } from "react";
+import { UserContext } from "./../../context/user.context";
 
 import { PokeContext } from "../../context/pokemon.context";
 
@@ -15,6 +16,8 @@ const Navigation = () => {
   const [searchField, setSearchField] = useState("");
 
   const pokemon = useContext(PokeContext);
+
+  const { currentUser } = useContext(UserContext);
 
   const filteredPokemon = pokemon.filter((pokemon) => {
     return pokemon.name.toLocaleLowerCase().includes(searchField);
@@ -31,6 +34,8 @@ const Navigation = () => {
     event.preventDefault();
     setSearchField("");
   };
+
+  const userFromStorage = localStorage.getItem("user");
 
   return (
     <Fragment>
@@ -66,26 +71,30 @@ const Navigation = () => {
               </Link>
             </li>
             <li>
-              <Link className="nav-link" to="/blog">
-                <ion-icon
-                  class="nav-icon"
-                  name="document-text-outline"
-                ></ion-icon>
-                Blog
-              </Link>
-            </li>
-            <li>
               <Link className="nav-link" to="/contacts">
                 <ion-icon class="nav-icon" name="call-outline"></ion-icon>
                 Contacts
               </Link>
             </li>
-            <Link to="/login">
-              <Button buttonType="light">Log In</Button>
-            </Link>
-            <Link to="/sign-up">
-              <Button>Sign Up</Button>
-            </Link>
+            {userFromStorage || currentUser ? (
+              <Link className="nav-link" to="/">
+                Hello, {userFromStorage}
+              </Link>
+            ) : null}
+            {!userFromStorage && !currentUser ? (
+              <Fragment>
+                <Link to="/login">
+                  <Button buttonType="light">Log In</Button>
+                </Link>
+                <Link to="/sign-up">
+                  <Button>Sign Up</Button>
+                </Link>
+              </Fragment>
+            ) : (
+              <Link className="nav-link" onClick={signOutUser}>
+                <Button>Sign out</Button>
+              </Link>
+            )}
             <li>
               <Link className="nav-link" to="/checkout">
                 <ion-icon class="nav-icon" name="cart-outline"></ion-icon>Cart

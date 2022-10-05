@@ -1,20 +1,20 @@
 import "./checkout.styles.css";
 import CartItem from "../../components/cart-item/cart-item.component";
+import Button from "../../components/button/button.component";
+
+import { useContext } from "react";
+import { CartContext } from "../../context/cart.context";
+import { UserContext } from "../../context/user.context";
+import { addOrder } from "../../components/utils/firebase.util";
 
 const Checkout = () => {
-  let pokemon = {
-    name: "slowpoke",
-    url: "https://pokeapi.co/api/v2/pokemon-species/79/",
-    id: "79",
-    type: ["water", "psychic"],
-    evolution: "1",
-    price: 3230,
-    legendary: false,
-    discountPrice: null,
-    new: true,
+  const addOrderHandler = () => {
+    addOrder(cartItems, currentUser);
   };
 
-  //   console.log(pokemon.name);
+  const { cartItems, cartTotal } = useContext(CartContext);
+
+  const { currentUser } = useContext(UserContext);
 
   return (
     <div className="checkout-container container">
@@ -35,8 +35,13 @@ const Checkout = () => {
           <span>Remove</span>
         </div>
       </div>
-      {pokemon ? <CartItem pokemon={pokemon} /> : null}
-      <div className="total">TOTAL: </div>
+      {cartItems.map((item) => (
+        <CartItem key={item.id} pokemon={item} />
+      ))}
+      <div className="total">
+        {!cartTotal ? `TOTAL: ${cartTotal}` : `TOTAL: ${cartTotal} 円`}
+        <Button onClick={addOrderHandler}>Place an Order</Button>
+      </div>
     </div>
   );
 };

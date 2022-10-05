@@ -18,6 +18,10 @@
   margin-top: 30px;
   margin-left: auto;
   font-size: 36px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .checkout-container {
