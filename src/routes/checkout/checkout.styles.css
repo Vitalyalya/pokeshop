@@ -32,3 +32,8 @@
   align-items: center;
   margin: 50px auto 0;
 }
+
+.cart-empty {
+  margin-top: 20px;
+  font-size: 28px;
+}

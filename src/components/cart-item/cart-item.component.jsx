@@ -6,6 +6,8 @@ import { CartContext } from "../../context/cart.context";
 const CartItem = ({ pokemon }) => {
   const { name, id, type, evolution, price, quantity } = pokemon;
 
+  // console.log(pokemon);
+
   const { removeItemFromCart, reduceItemQuantity, increaseItemQuantity } =
     useContext(CartContext);
 

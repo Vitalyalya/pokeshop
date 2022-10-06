@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 
 const addCartItem = (cartItems, productToAdd) => {
-  console.log(productToAdd);
+  // console.log(productToAdd);
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
   );
@@ -83,12 +83,13 @@ export const CartProvider = ({ children }) => {
   };
 
   const addItemToCart = (productToAdd) => {
-    console.log(productToAdd);
+    // console.log(productToAdd);
     setCartItems(addCartItem(cartItems, productToAdd));
   };
 
   const value = {
     addItemToCart,
+    setCartItems,
     cartItems,
     cartCount,
     cartTotal,

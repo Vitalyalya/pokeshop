@@ -2,6 +2,9 @@
   width: 100%;
   display: flex;
   min-height: 100px;
+
+  align-items: center;
+  justify-content: space-around;
   /* border-bottom: 1px solid darkgrey; */
   padding: 15px 0;
   font-size: 20px;
@@ -18,33 +21,24 @@
   height: 100%;
 }
 
-.name,
-.quantity,
-.price {
+/* .order-item-name,
+.order-item-quantity,
+.order-item-price {
   width: 23%;
-}
+} */
 
-.evolution {
+.order-item-evolution {
   font-size: 18px;
 }
 
-.name {
+.order-item-name {
   text-transform: capitalize;
 }
 
-.quantity {
+.order-item-quantity {
   display: flex;
 }
 
-.arrow {
-  cursor: pointer;
-}
-
-.value {
+.order-item-value {
   margin: 0 10px;
-}
-
-.remove-button {
-  padding-left: 12px;
-  cursor: pointer;
 }

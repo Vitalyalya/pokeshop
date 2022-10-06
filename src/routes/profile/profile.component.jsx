@@ -2,46 +2,118 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/user.context";
 import { getUserDocs } from "../../components/utils/firebase.util";
 
-import CartItem from "../../components/cart-item/cart-item.component";
+import Orders from "../../components/orders/orders.component";
+import Button from "../../components/button/button.component";
+
+// import { changeUserData } from "../../components/utils/firebase.util";
+
+import "./profile.styles.css";
+
+const defaultFields = {
+  name: "",
+  email: "",
+};
 
 const ProfilePage = () => {
-  //   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState(null);
+  const [isNameActive, setIsNameActive] = useState(true);
+  const [isEmailActive, setIsEmailActive] = useState(true);
+
+  const [formFields, setFormFields] = useState(defaultFields);
+  const { name, email } = formFields;
 
   const { currentUser } = useContext(UserContext);
 
-  //   let orderList = "";
+  const nameEditHandler = () => {
+    setIsNameActive(!isNameActive);
+  };
+
+  const nameEdit = () => {
+    console.log(currentUser.displayName);
+    setIsNameActive(!isNameActive);
+    // changeUserData(name, currentUser, true);
+  };
+
+  const emailEditHandler = () => {
+    setIsEmailActive(!isEmailActive);
+  };
+
+  const emailEdit = () => {
+    setIsEmailActive(!isEmailActive);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormFields({ ...formFields, [name]: value });
+  };
 
   useEffect(() => {
-    // console.log(currentUser);
     if (currentUser) {
-      //   setLoading(false);
       getUserDocs(currentUser).then((data) => setOrders(data));
+      defaultFields.name = currentUser.displayName;
+      defaultFields.email = currentUser.email;
     }
   }, [currentUser]);
 
-  //   useEffect(() => {
-  //     if (orders) {
-  //       console.log(orders);
-  //     }
-  //   }, [orders]);
-
   if (orders) {
+    if (orders.orders === "null") {
+      console.log("rip");
+    }
     const ordersList = orders.orders.map((order) => JSON.parse(order));
 
-    console.log(ordersList);
-    ordersList.map((order) => {});
+    // ordersList.map((order) => {
+    //   console.log(order);
+    // });
+
     return (
-      <div className="container">
-        {ordersList.map((order) =>
-          order.map((oneOrder) => (
-            <>
-              <CartItem key={oneOrder.id} pokemon={oneOrder} />
-              {/* <hr></hr> */}
-            </>
-          ))
-        )}
-      </div>
+      <>
+        {currentUser ? (
+          <>
+            <div className="container profile-info">
+              <span className="profile-info-block">
+                <p>Name:</p>
+                <input
+                  className="input__field profile-input"
+                  disabled={isNameActive}
+                  value={name}
+                  onChange={handleChange}
+                  name="name"
+                />
+
+                {!isNameActive ? (
+                  <Button onClick={nameEdit}>Save</Button>
+                ) : (
+                  <Button onClick={nameEditHandler}>Edit</Button>
+                )}
+              </span>
+              <span className="profile-info-block">
+                Email:{" "}
+                <input
+                  className="input__field profile-input"
+                  disabled={isEmailActive}
+                  value={email}
+                  onChange={handleChange}
+                  name="email"
+                />
+                {!isEmailActive ? (
+                  <Button onClick={emailEdit}>Save</Button>
+                ) : (
+                  <Button onClick={emailEditHandler}>Edit</Button>
+                )}
+              </span>
+            </div>
+            <div className="profile-container">
+              {ordersList.length ? (
+                ordersList.map((order) => (
+                  <Orders key={order[0].date} ordersList={order} />
+                ))
+              ) : (
+                <div className="cart-empty">No orders</div>
+              )}
+            </div>
+          </>
+        ) : null}
+      </>
     );
   }
 };

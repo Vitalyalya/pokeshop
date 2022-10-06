@@ -24,7 +24,6 @@ const Home = () => {
 
   return (
     <div className="container">
-      <Carousel />
       <section className="dropdown-section">
         <Dropdown name="Evolutions" drops={"Evo 1,Evo 2,Evo 3"} />
         <Dropdown
@@ -40,6 +39,7 @@ const Home = () => {
           Discounts
         </button>
       </section>
+      <Carousel />
       <section>
         <h1>Discounts:</h1>
         <div className="cards-container">

@@ -7,14 +7,18 @@ import { CartContext } from "../../context/cart.context";
 import { UserContext } from "../../context/user.context";
 import { addOrder } from "../../components/utils/firebase.util";
 
+import { useNavigate } from "react-router-dom";
+
 const Checkout = () => {
+  const { cartItems, setCartItems, cartTotal } = useContext(CartContext);
+  const { currentUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const addOrderHandler = () => {
     addOrder(cartItems, currentUser);
+    navigate("/");
+    setCartItems([]);
   };
-
-  const { cartItems, cartTotal } = useContext(CartContext);
-
-  const { currentUser } = useContext(UserContext);
 
   return (
     <div className="checkout-container container">
@@ -35,12 +39,21 @@ const Checkout = () => {
           <span>Remove</span>
         </div>
       </div>
-      {cartItems.map((item) => (
+      {cartItems.length ? (
+        cartItems.map((item) => <CartItem key={item.id} pokemon={item} />)
+      ) : (
+        <div className="cart-empty">Cart is empty</div>
+      )}
+      {/* {
+      cartItems.map((item) => (
         <CartItem key={item.id} pokemon={item} />
-      ))}
+      ))
+      } */}
       <div className="total">
         {!cartTotal ? `TOTAL: ${cartTotal}` : `TOTAL: ${cartTotal} 円`}
-        <Button onClick={addOrderHandler}>Place an Order</Button>
+        {cartItems.length ? (
+          <Button onClick={addOrderHandler}>Place an Order</Button>
+        ) : null}
       </div>
     </div>
   );

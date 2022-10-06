@@ -52,7 +52,7 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        orders: "null",
+        orders: [],
         ...additionalInformation,
       });
       // console.log(userDocRef);
@@ -99,15 +99,21 @@ export const addOrder = async (order, userAuth) => {
 
   const docSnap = await getDoc(userDocRef);
 
-  const docWithNewOrder = docSnap.data().orders;
+  let docWithNewOrder = docSnap.data().orders;
+
+  if (typeof docWithNewOrder !== "object") {
+    docWithNewOrder = [];
+  }
+
+  // JSON.parse(docWithNewOrder);
+
+  console.log(typeof docWithNewOrder);
+
+  const date = new Date().toISOString().slice(0, -5);
+
+  order.unshift({ date });
 
   docWithNewOrder.push(JSON.stringify(order));
 
-  console.log(docWithNewOrder);
-
-  // const docWithNewOrder = { orders: "order 5" };
-
   await setDoc(userDocRef, { orders: docWithNewOrder }, { merge: true });
-
-  // console.log(docSnap.data().orders);
 };
