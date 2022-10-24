@@ -1,7 +1,19 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import Button from "../button/button.component";
+import { useContext } from "react";
+
+import { PokeContext } from "../../context/pokemon.context";
 
 const Dropdown = ({ name, drops }) => {
   let dropsArr = drops.split(",");
+
+  const { setFilterSettings } = useContext(PokeContext);
+
+  // const allClickHandler = () => {};
+
+  const clickHandler = (drop) => {
+    setFilterSettings(drop.trim().toLowerCase());
+  };
 
   return (
     <div className="dropdown">
@@ -14,32 +26,20 @@ const Dropdown = ({ name, drops }) => {
         {name}
       </button>
       <ul className="dropdown-menu">
-        <Link className="dropdown-item" href="#">
+        <Button className="dropdown-item" onClick={() => clickHandler("")}>
           All types
-        </Link>
+        </Button>
         <hr></hr>
         {dropsArr.map((drop) => (
           <li key={drop}>
-            <Link className="dropdown-item" href="#">
+            <Button
+              className="dropdown-item"
+              onClick={() => clickHandler(drop)}
+            >
               {drop}
-            </Link>
+            </Button>
           </li>
         ))}
-        {/* <li>
-          <Link className="dropdown-item" href="#">
-            Action
-          </Link>
-        </li>
-        <li>
-          <Link className="dropdown-item" href="#">
-            Another action
-          </Link>
-        </li>
-        <li>
-          <Link className="dropdown-item" href="#">
-            Something else here
-          </Link>
-        </li> */}
       </ul>
     </div>
   );

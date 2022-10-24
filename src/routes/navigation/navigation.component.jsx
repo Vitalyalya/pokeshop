@@ -15,7 +15,7 @@ import "./navigation.styles.css";
 const Navigation = () => {
   const [searchField, setSearchField] = useState("");
 
-  const pokemon = useContext(PokeContext);
+  const { pokemon } = useContext(PokeContext);
 
   const { currentUser } = useContext(UserContext);
 

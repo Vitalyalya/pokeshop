@@ -6,6 +6,7 @@ import LogInForm from "./components/login-form/login-form";
 import SignUp from "./routes/sign-up/sign-up.component";
 import Checkout from "./routes/checkout/checkout.component";
 import ProfilePage from "./routes/profile/profile.component";
+import Shop from "./routes/shop/shop.component";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="sign-up/" element={<SignUp />}></Route>
         <Route path="checkout/" element={<Checkout />}></Route>
         <Route path="profile/" element={<ProfilePage />}></Route>
+        <Route path="shop/" element={<Shop />}></Route>
       </Route>
     </Routes>
   );

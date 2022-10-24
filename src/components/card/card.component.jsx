@@ -22,6 +22,8 @@ const PokeCard = ({ pokemon }) => {
     addItemToCart(pokemon);
   };
 
+  // console.log(pokemon);
+
   return (
     <Card className={leg} style={{ width: "15rem", margin: "0 auto" }}>
       <div className="d-flex gap-2 ">
