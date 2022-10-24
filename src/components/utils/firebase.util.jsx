@@ -7,6 +7,11 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  updateProfile,
+  updateEmail,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -116,4 +121,62 @@ export const addOrder = async (order, userAuth) => {
   docWithNewOrder.push(JSON.stringify(order));
 
   await setDoc(userDocRef, { orders: docWithNewOrder }, { merge: true });
+};
+
+export const changeUserData = async (name, userAuth) => {
+  const userDocRef = doc(db, "users", userAuth.uid);
+  await setDoc(userDocRef, { displayName: name }, { merge: true });
+
+  localStorage.setItem("user", name);
+  window.location.reload();
+  await updateProfile(userAuth, { displayName: name });
+};
+
+export const changeUserEmail = async (email, userAuth, password) => {
+  let check = false;
+
+  const userDocRef = doc(db, "users", userAuth.uid);
+
+  if (password) {
+    const credentials = EmailAuthProvider.credential(userAuth.email, password);
+    await reauthenticateWithCredential(auth.currentUser, credentials);
+  }
+
+  await updateEmail(auth.currentUser, email)
+    .then(() => {
+      // console.log("Email updated");
+
+      setDoc(userDocRef, { email: email }, { merge: true });
+      updateProfile(userAuth, { email: email });
+    })
+    .catch(() => {
+      // console.log(err);
+      check = true;
+    });
+
+  return check;
+};
+
+export const changeUserPassword = async (email, userAuth, oldPass, newPass) => {
+  let check = 0;
+
+  const credentials = EmailAuthProvider.credential(email, oldPass);
+  await reauthenticateWithCredential(auth.currentUser, credentials)
+    .then(() => {
+      updatePassword(auth.currentUser, newPass)
+        .then(() => {
+          console.log("password updated");
+        })
+        .catch((err) => {
+          console.log(err);
+          check = err;
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      check = err;
+    });
+  // }
+
+  return check;
 };

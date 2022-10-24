@@ -5,7 +5,7 @@
   justify-content: center;
   gap: 30px;
 
-  /* width: 75%; */
+  max-width: 500px;
 }
 
 .profile-input {
@@ -19,5 +19,40 @@
   justify-content: center;
 
   gap: 10px;
+
+  /* width: 400px; */
+
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+
   /* flex-direction: row; */
+}
+
+.enter-pass-again {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
+
+.enter-pass-message {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.enter-pass-input-button {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  /* width: 400px; */
+  gap: 30px;
+}
+
+.name-email-block {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 15px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
 }

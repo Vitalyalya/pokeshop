@@ -70,12 +70,6 @@ const Navigation = () => {
                 Profile
               </Link>
             </li>
-            <li>
-              <Link className="nav-link" to="/contacts">
-                <ion-icon class="nav-icon" name="call-outline"></ion-icon>
-                Contacts
-              </Link>
-            </li>
             {userFromStorage || currentUser ? (
               <Link className="nav-link" to="/">
                 Hello, {userFromStorage}
