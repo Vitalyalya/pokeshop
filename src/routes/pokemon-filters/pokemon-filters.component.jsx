@@ -46,7 +46,7 @@ const PokemonFilters = () => {
       return pokeArr;
     });
     setFilteredPokemon(pokeArr);
-  }, [filterSettings]);
+  });
 
   return (
     <div className="container">

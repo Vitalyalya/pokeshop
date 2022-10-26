@@ -73,12 +73,12 @@
   outline: none !important;
 }
 
-li:last-child {
+.nav-item:last-child {
   padding-left: 30px;
 }
 
 @media (max-width: 992px) {
-  li:last-child {
+  .nav-item:last-child {
     padding-left: 0px;
     padding-top: 30px;
   }
