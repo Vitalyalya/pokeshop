@@ -1,6 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import { useState, useContext, Fragment } from "react";
 import { signOutUser } from "./../../components/utils/firebase.util";
+import { useNavigate } from "react-router-dom";
 
 import SearchBox from "../../components/search-box/searchbox.component";
 import SearchCard from "../../components/search-card/search-card.component";
@@ -23,6 +24,8 @@ const Navigation = () => {
     return pokemon.name.toLocaleLowerCase().includes(searchField);
   });
 
+  const navigate = useNavigate();
+
   const onSearchChange = (event) => {
     event.preventDefault();
 
@@ -30,73 +33,165 @@ const Navigation = () => {
     setSearchField(searchFieldString);
   };
 
-  const onBlur = (event) => {
+  const onBlur = () => {
+    // setTimeout(() => {
+    setSearchField("");
+    // });
+  };
+
+  const submitHandler = (event) => {
     event.preventDefault();
     setSearchField("");
+    navigate("/search", { state: { filteredPokemon, searchField } });
   };
 
   const userFromStorage = localStorage.getItem("user");
 
   return (
     <Fragment>
-      <div className="nav-container container">
+      <nav className="navbar navbar-expand-lg container">
         <Link className="logo-container" to="/">
           <img alt="logo" src="https://via.placeholder.com/160x80" />
         </Link>
-        <div className="searchcard-container">
-          <SearchBox
-            className="search-box"
-            onChangeHandler={onSearchChange}
-            placeholder="Search pokemon"
-            onBlurHandler={onBlur}
-          />
-          <div className="search-card-container">
-            {searchField.length > 1
-              ? filteredPokemon
-                  .filter((item, idx) => idx < 4)
-                  .map((pokemon) => (
-                    <div key={pokemon.id} className="position-relative">
-                      <SearchCard pokemon={pokemon} />
-                    </div>
-                  ))
-              : null}
-          </div>
-        </div>
-        <div className="nav-links">
-          <ul className="mb-0">
-            <li>
-              <Link className="nav-link" to="/profile">
-                <ion-icon class="nav-icon" name="person-outline"></ion-icon>
-                Profile
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon">
+            <ion-icon className="collapse-icon" name="menu-outline"></ion-icon>
+          </span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto ">
+            <li className="nav-item">
+              <div className="searchcard-container">
+                <SearchBox
+                  className="search-box"
+                  onChangeHandler={onSearchChange}
+                  placeholder="Search pokemon"
+                  // onBlurHandler={onBlur}
+                  onSubmitHandler={submitHandler}
+                  value={searchField}
+                />
+                <div className="search-card-container">
+                  {searchField.length > 1
+                    ? filteredPokemon
+                        .filter((_, idx) => idx < 4)
+                        .map((pokemon) => (
+                          <div key={pokemon.id} className="position-relative">
+                            <Link
+                              onClick={onBlur}
+                              className="search-card-wrapper"
+                              to={`/pokemon/${pokemon.name}`}
+                            >
+                              <SearchCard pokemon={pokemon} />
+                            </Link>
+                          </div>
+                        ))
+                    : null}
+                </div>
+              </div>
+            </li>
+            <li
+              // data-toggle="collapse"
+
+              className="nav-item"
+            >
+              <Link className="nav-link" to="/pokemon">
+                <ion-icon className="nav-icon" name="reader-outline"></ion-icon>
+                <p
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                >
+                  Pokemon
+                </p>
               </Link>
             </li>
-            {userFromStorage || currentUser ? (
-              <Link className="nav-link" to="/">
-                Hello, {userFromStorage}
+            <li className="nav-item">
+              <Link className="nav-link" to="/profile">
+                <ion-icon className="nav-icon" name="person-outline"></ion-icon>
+                <p
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                >
+                  Profile
+                </p>
               </Link>
-            ) : null}
-            {!userFromStorage && !currentUser ? (
-              <Fragment>
-                <Link to="/login">
-                  <Button buttonType="light">Log In</Button>
-                </Link>
-                <Link to="/sign-up">
-                  <Button>Sign Up</Button>
-                </Link>
-              </Fragment>
-            ) : (
-              <Link className="nav-link" onClick={signOutUser}>
-                <Button>Sign out</Button>
-              </Link>
-            )}
-            <li>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to="/checkout">
-                <ion-icon class="nav-icon" name="cart-outline"></ion-icon>Cart
+                <ion-icon className="nav-icon" name="cart-outline"></ion-icon>
+                <p
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                >
+                  Cart
+                </p>
               </Link>
+            </li>
+            <li className="nav-item">
+              {userFromStorage || currentUser ? (
+                <Fragment>
+                  <div className="buttons-container">
+                    <div className="nav-link">
+                      <ion-icon
+                        className="nav-icon"
+                        name="checkmark-outline"
+                      ></ion-icon>
+                      {userFromStorage}
+                    </div>
+                  </div>
+                </Fragment>
+              ) : null}
+
+              {!userFromStorage && !currentUser ? (
+                <Fragment>
+                  <div className="buttons-container">
+                    <div className="nav-item">
+                      <Link to="/login">
+                        <Button
+                          data-bs-toggle="collapse"
+                          data-bs-target="#navbarSupportedContent"
+                          buttonType="light"
+                        >
+                          Log In
+                        </Button>
+                      </Link>
+                    </div>
+
+                    <Link to="/sign-up">
+                      <Button
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                      >
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </div>
+                </Fragment>
+              ) : (
+                <div className="nav-item">
+                  <Link className="nav-link" onClick={signOutUser}>
+                    <Button
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarSupportedContent"
+                    >
+                      Sign out
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </li>
           </ul>
         </div>
-      </div>
+      </nav>
       <Outlet />
     </Fragment>
   );

@@ -37,3 +37,38 @@
   margin-top: 20px;
   font-size: 28px;
 }
+
+@media (max-width: 1000px) {
+  .checkout-container {
+    width: 75%;
+  }
+}
+@media (max-width: 850px) {
+  .checkout-container {
+    width: 75%;
+  }
+
+  .header-block span {
+    font-size: 14px;
+  }
+
+  .checkout-item-container .name,
+  .checkout-item-container .evolution,
+  .checkout-item-container .price {
+    font-size: 14px;
+  }
+
+  .total {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 550px) {
+  .checkout-container {
+    width: 90%;
+  }
+
+  .total {
+    font-size: 18px;
+  }
+}

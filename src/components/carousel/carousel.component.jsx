@@ -5,7 +5,7 @@ const Carousel = () => {
       className="carousel slide"
       data-bs-ride="carousel"
     >
-      <div className="carousel-indicators">
+      {/* <div className="carousel-indicators">
         <button
           type="button"
           data-bs-target="#carouselExampleIndicators"
@@ -26,7 +26,7 @@ const Carousel = () => {
           data-bs-slide-to="2"
           aria-label="Slide 3"
         ></button>
-      </div>
+      </div> */}
       <div className="carousel-inner">
         <div className="carousel-item active">
           <img

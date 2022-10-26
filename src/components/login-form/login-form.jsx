@@ -86,13 +86,13 @@ const LogInForm = () => {
             value={password}
             placeholder="At least 6 characters"
           />
-
-          <Button buttonType="long" type="submit">
+          <hr />
+          <Button buttonType="form" type="submit">
             Log In
           </Button>
         </form>
         <hr></hr>
-        <Button buttonType="long" onClick={signInWithGoogle}>
+        <Button buttonType="form" onClick={signInWithGoogle}>
           Sign in with Google
         </Button>
       </div>

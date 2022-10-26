@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/user.context";
 import { getUserDocs } from "../../components/utils/firebase.util";
 
+import { Link } from "react-router-dom";
+
 import Orders from "../../components/orders/orders.component";
 import Button from "../../components/button/button.component";
 
@@ -208,7 +210,18 @@ const ProfilePage = () => {
   } else if (localStorage.getItem("user") !== null) {
     return <div className="profile-container cart-empty">Loading...</div>;
   } else
-    return <div className="profile-container cart-empty">Please log in</div>;
+    return (
+      <div className="profile-container-empty cart-empty">
+        Please{" "}
+        <Link to="/login">
+          <Button buttonType="light">Log In</Button>
+        </Link>{" "}
+        or{" "}
+        <Link to="/sign-up">
+          <Button>Sign Up</Button>
+        </Link>
+      </div>
+    );
 };
 
 export default ProfilePage;

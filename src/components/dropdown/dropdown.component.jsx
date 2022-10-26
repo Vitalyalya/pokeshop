@@ -2,6 +2,8 @@
 import Button from "../button/button.component";
 import { useContext } from "react";
 
+import "./dropdown.styles.css";
+
 import { PokeContext } from "../../context/pokemon.context";
 
 const Dropdown = ({ name, drops }) => {

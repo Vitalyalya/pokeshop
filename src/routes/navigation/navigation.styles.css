@@ -1,11 +1,28 @@
 .nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center !important;
   align-items: center;
   gap: 20px;
 }
 
-.nav-links ul {
+.navbar-collapse {
+  padding-left: 15px;
+}
+
+.navbar {
+  gap: 30px;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar-collapse {
+  justify-content: space-around;
+}
+
+.nav-links {
   list-style: none;
   display: flex;
   align-items: center;
@@ -14,15 +31,19 @@
   gap: 20px;
 }
 
-.nav-links {
+.navbar-nav,
+.nav-item {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  /* gap: 30px; */
+}
+
+.nav-item {
+  gap: 15px;
 }
 
 .nav-link {
-  font-size: 18px;
-  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,4 +62,24 @@
 
 .searchcard-container {
   position: relative;
+}
+
+.collapse-icon {
+  height: 100%;
+  width: 100%;
+}
+
+.navbar-toggler-icon:focus {
+  outline: none !important;
+}
+
+li:last-child {
+  padding-left: 30px;
+}
+
+@media (max-width: 992px) {
+  li:last-child {
+    padding-left: 0px;
+    padding-top: 30px;
+  }
 }

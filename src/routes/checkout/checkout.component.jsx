@@ -15,7 +15,10 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   const addOrderHandler = () => {
-    addOrder(cartItems, currentUser);
+    if (currentUser) {
+      addOrder(cartItems, currentUser);
+    }
+    alert("Success!");
     navigate("/");
     setCartItems([]);
   };

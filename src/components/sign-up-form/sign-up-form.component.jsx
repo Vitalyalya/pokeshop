@@ -113,7 +113,8 @@ const SignUpForm = () => {
             value={confirmPassword}
             placeholder="Repeat password"
           />
-          <Button onClick={handleSubmit} type="submit">
+          <hr />
+          <Button onClick={handleSubmit} type="submit" buttonType="form">
             Register
           </Button>
         </form>

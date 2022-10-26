@@ -1,8 +1,7 @@
 import "./button.styles.css";
 
 export const BUTTON_TYPE_CLASSES = {
-  long: "form-button",
-  light: "light",
+  form: "form-button",
 };
 
 const Button = ({ children, buttonType, ...otherProps }) => {
