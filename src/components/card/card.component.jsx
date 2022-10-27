@@ -4,7 +4,7 @@ import Button from "../button/button.component";
 
 import { Link } from "react-router-dom";
 
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../../context/cart.context";
 
 import "./card.styles.css";
@@ -12,13 +12,20 @@ import "./card.styles.css";
 const PokeCard = ({ pokemon }) => {
   const { name, id, type, evolution, price, discountPrice } = pokemon;
 
+  const [showQuantity, setShowQuantity] = useState(true);
+
   const { addItemToCart } = useContext(CartContext);
 
   const addPokemonToCart = () => {
     addItemToCart(pokemon);
+    setShowQuantity(false);
   };
 
-  // console.log(pokemon);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowQuantity(true);
+    }, 1500);
+  });
 
   return (
     <>
@@ -32,6 +39,12 @@ const PokeCard = ({ pokemon }) => {
             />
           </div>
           <div className="wsk-cp-text">
+            {pokemon.new ? (
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                NEW
+                <span className="visually-hidden">NEW</span>
+              </span>
+            ) : null}
             <div className="title-product">
               <h3>{name}</h3>
             </div>
@@ -72,8 +85,12 @@ const PokeCard = ({ pokemon }) => {
               </>
             )}
           </>
-          <Button buttonType="light" onClick={addPokemonToCart}>
-            To cart
+          <Button
+            buttonType="light"
+            id="liveToastBtn"
+            onClick={addPokemonToCart}
+          >
+            {showQuantity ? "To cart" : "✔️"}
           </Button>
         </div>
       </div>

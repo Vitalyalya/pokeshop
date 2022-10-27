@@ -32,7 +32,7 @@ const CartItem = ({ pokemon }) => {
       </div>
       <span className="name">
         {name}
-        <div className="d-flex gap-2 ">
+        <div className="d-flex gap-2 flex-column w-75">
           {typeof type === "object" ? (
             type.map((slot) => (
               <span key={slot} className="badge bg-info text-dark ">

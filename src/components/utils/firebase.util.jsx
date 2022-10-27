@@ -52,6 +52,8 @@ export const createUserDocumentFromAuth = async (
     console.log(userAuth);
 
     const createdAt = new Date();
+    createdAt.setHours(createdAt.getHours() + 3);
+    console.log(createdAt);
     try {
       await setDoc(userDocRef, {
         displayName,
@@ -114,7 +116,11 @@ export const addOrder = async (order, userAuth) => {
 
   console.log(typeof docWithNewOrder);
 
-  const date = new Date().toISOString().slice(0, -5);
+  const date = new Date();
+  date
+    .setHours(date.getHours() + 3)
+    .toString()
+    .slice(0, -5);
 
   order.unshift({ date });
 

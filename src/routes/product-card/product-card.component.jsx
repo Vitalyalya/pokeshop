@@ -11,7 +11,7 @@ import Button from "../../components/button/button.component";
 const ProductCard = () => {
   const { name } = useParams();
 
-  const { addItemToCart, cartTotal, cartItems } = useContext(CartContext);
+  const { addItemToCart } = useContext(CartContext);
 
   const [chosenPokemon, setStatePokemon] = useState(name);
 
@@ -26,13 +26,12 @@ const ProductCard = () => {
     }
   }, [name, pokemon]);
 
-  // console.log(chosenPokemon);
-
   const addPokemonToCart = () => {
     addItemToCart(chosenPokemon);
+    const datetime = new Date();
+    datetime.setHours(datetime.getHours() + 3);
+    console.log(datetime);
   };
-  console.log(cartTotal);
-  console.log(cartItems);
 
   return (
     <div className="container product-container">
@@ -43,43 +42,43 @@ const ProductCard = () => {
         />
       </div>
       <div className="product-description">
-        <span>
-          <ul className="product-list">
-            <li>ID: {chosenPokemon.id}</li>
-            <li>Evolution: {chosenPokemon.evolution}</li>
-            {
-              typeof chosenPokemon.type === "string" ? (
-                <li className="product-type">Type: {chosenPokemon.type}</li>
-              ) : (
-                <li>
-                  Types:{" "}
-                  {chosenPokemon.type
-                    ? chosenPokemon.type.map((slot) => (
-                        <span key={slot} className="product-type">
-                          {slot}{" "}
-                        </span>
-                      ))
-                    : null}
-                </li>
-              )
-              // null}
-            }
-            {chosenPokemon.discountPrice ? (
-              <div className="price-block">
-                <li>
-                  <s className="discount-price">{chosenPokemon.price} 円</s>
-                </li>
-                <li>{chosenPokemon.discountPrice} 円</li>
-                <Button onClick={addPokemonToCart}> Buy </Button>
-              </div>
-            ) : (
-              <div className="price-block">
-                <li>{chosenPokemon.price} 円</li>
-                <Button onClick={addPokemonToCart}> Buy </Button>
-              </div>
-            )}
-          </ul>
-        </span>
+        <ul className="product-list">
+          <li>ID: {chosenPokemon.id}</li>
+          <li>Evolution: {chosenPokemon.evolution}</li>
+          {typeof chosenPokemon.type === "string" ? (
+            <li className="product-type">Type: {chosenPokemon.type}</li>
+          ) : (
+            <li>
+              Types:{" "}
+              {chosenPokemon.type
+                ? chosenPokemon.type.map((slot) => (
+                    <span key={slot} className="product-type">
+                      {slot}{" "}
+                    </span>
+                  ))
+                : null}
+            </li>
+          )}
+        </ul>
+        {chosenPokemon.discountPrice ? (
+          <div className="price-block">
+            <div className="prices">
+              <span className="discount-price">
+                {chosenPokemon.discountPrice} 円
+              </span>
+
+              <span className="normal-price">{chosenPokemon.price} 円</span>
+            </div>
+            <Button onClick={addPokemonToCart}> Buy </Button>
+          </div>
+        ) : (
+          <div className="price-block">
+            <div className="prices">
+              <span className="normal-price">{chosenPokemon.price} 円</span>
+            </div>
+            <Button onClick={addPokemonToCart}> Buy </Button>
+          </div>
+        )}
       </div>
     </div>
   );

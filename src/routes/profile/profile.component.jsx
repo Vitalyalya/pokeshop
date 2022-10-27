@@ -27,7 +27,6 @@ const ProfilePage = () => {
   const [orders, setOrders] = useState(null);
   const [isNameActive, setIsNameActive] = useState(true);
   const [isEmailActive, setIsEmailActive] = useState(true);
-  // const [isPasswordNeeded, setIspasswordNeeded] = useState(false);
 
   const [formFields, setFormFields] = useState(defaultFields);
   const { name, email, password, oldPass, newPass } = formFields;
@@ -39,7 +38,6 @@ const ProfilePage = () => {
   };
 
   const nameEdit = () => {
-    // console.log(currentUser.displayName);
     setIsNameActive(!isNameActive);
     changeUserData(name, currentUser, true);
   };
@@ -52,7 +50,6 @@ const ProfilePage = () => {
     setIsEmailActive(!isEmailActive);
     const check = await changeUserEmail(email, currentUser, false);
     setTimePassed(check);
-    // console.log(check);
   };
 
   const enterPassHandler = () => {
@@ -100,8 +97,6 @@ const ProfilePage = () => {
       getUserDocs(currentUser).then((data) => setOrders(data));
       defaultFields.name = currentUser.displayName;
       defaultFields.email = currentUser.email;
-      console.log(currentUser.providerData[0].providerId === "google.com");
-      console.log(currentUser);
     }
   }, [currentUser]);
 
@@ -110,101 +105,115 @@ const ProfilePage = () => {
 
     return (
       <>
-        {currentUser &&
-        currentUser.providerData[0].providerId !== "google.com" ? (
+        {currentUser ? (
           <>
-            <div className="container profile-info">
-              <div className="name-email-block">
-                <span className="profile-info-block">
-                  <p>Name:</p>
-                  <input
-                    className="input__field profile-input"
-                    disabled={isNameActive}
-                    value={name}
-                    onChange={handleChange}
-                    name="name"
-                  />
+            {currentUser.providerData[0].providerId !== "google.com" ? (
+              <div className="container profile-info">
+                <div className="name-email-block">
+                  <span className="profile-info-block">
+                    <p>Name:</p>
+                    <input
+                      className="input__field profile-input"
+                      disabled={isNameActive}
+                      value={name}
+                      onChange={handleChange}
+                      name="name"
+                    />
 
-                  {!isNameActive === true ? (
-                    <Button onClick={nameEdit}>Save</Button>
-                  ) : (
-                    <Button onClick={nameEditHandler}>Edit</Button>
-                  )}
-                </span>
-                <span className="profile-info-block">
-                  Email:{" "}
-                  <input
-                    className="input__field profile-input"
-                    disabled={isEmailActive}
-                    value={email}
-                    onChange={handleChange}
-                    name="email"
-                  />
-                  {!isEmailActive ? (
-                    <Button onClick={emailEdit}>Save</Button>
-                  ) : (
-                    <Button onClick={emailEditHandler}>Edit</Button>
-                  )}
-                </span>
-              </div>
+                    {!isNameActive === true ? (
+                      <Button onClick={nameEdit}>Save</Button>
+                    ) : (
+                      <Button onClick={nameEditHandler}>Edit</Button>
+                    )}
+                  </span>
+                  <span className="profile-info-block">
+                    Email:{" "}
+                    <input
+                      className="input__field profile-input"
+                      disabled={isEmailActive}
+                      value={email}
+                      onChange={handleChange}
+                      name="email"
+                    />
+                    {!isEmailActive ? (
+                      <Button onClick={emailEdit}>Save</Button>
+                    ) : (
+                      <Button onClick={emailEditHandler}>Edit</Button>
+                    )}
+                  </span>
+                </div>
 
-              {timePassed ? (
+                {timePassed ? (
+                  <div className="enter-pass-again">
+                    <p className="enter-pass-message">
+                      Please enter your password again
+                    </p>
+                    <div className="enter-pass-input-button">
+                      <input
+                        className="input__field profile-input"
+                        // type="password"
+                        value={password}
+                        onChange={handleChange}
+                        name="password"
+                      />
+                      <Button onClick={enterPassHandler}>Submit</Button>
+                    </div>
+                  </div>
+                ) : null}
+                {/* {<Message />} */}
                 <div className="enter-pass-again">
-                  <p className="enter-pass-message">
-                    Please enter your password again
-                  </p>
-                  <div className="enter-pass-input-button">
-                    <input
-                      className="input__field profile-input"
-                      // type="password"
-                      value={password}
-                      onChange={handleChange}
-                      name="password"
-                    />
-                    <Button onClick={enterPassHandler}>Submit</Button>
+                  <div>
+                    <p className="enter-pass-message">Old password:</p>
+                    <div className="enter-pass-input">
+                      <input
+                        className="input__field profile-input"
+                        // type="password"
+                        value={oldPass}
+                        onChange={handleChange}
+                        name="oldPass"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="enter-pass-message">New password:</p>
+                    <div className="enter-pass-input">
+                      <input
+                        className="input__field profile-input"
+                        // type="password"
+                        value={newPass}
+                        onChange={handleChange}
+                        name="newPass"
+                      />
+                    </div>
                   </div>
                 </div>
-              ) : null}
-              {/* {<Message />} */}
-              <div className="enter-pass-again">
-                <div>
-                  <p className="enter-pass-message">Old password:</p>
-                  <div className="enter-pass-input">
-                    <input
-                      className="input__field profile-input"
-                      // type="password"
-                      value={oldPass}
-                      onChange={handleChange}
-                      name="oldPass"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <p className="enter-pass-message">New password:</p>
-                  <div className="enter-pass-input">
-                    <input
-                      className="input__field profile-input"
-                      // type="password"
-                      value={newPass}
-                      onChange={handleChange}
-                      name="newPass"
-                    />
-                  </div>
-                </div>
+                {oldPass ? (
+                  <Button onClick={changePasswordHandler}>Submit</Button>
+                ) : null}
               </div>
-              <Button onClick={changePasswordHandler}>Submit</Button>
+            ) : null}
+            <div className="profile-container">
+              {ordersList.length ? (
+                ordersList.map((order) => (
+                  <Orders key={order[0].date} ordersList={order} />
+                ))
+              ) : (
+                <div className="cart-empty">No orders</div>
+              )}
             </div>
           </>
-        ) : null}
-        <div className="profile-container">
-          {ordersList.length ? (
-            ordersList.map((order) => (
-              <Orders key={order[0].date} ordersList={order} />
-            ))
-          ) : (
-            <div className="cart-empty">No orders</div>
-          )}
-        </div>
+        ) : (
+          <div className="profile-container-empty cart-empty">
+            Please{" "}
+            <Link to="/login">
+              <Button buttonType="light">Log In</Button>
+            </Link>{" "}
+            or{" "}
+            <Link to="/sign-up">
+              <Button>Sign Up</Button>
+            </Link>
+          </div>
+        )}
       </>
     );
   } else if (localStorage.getItem("user") !== null) {

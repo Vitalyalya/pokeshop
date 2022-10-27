@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
-import { useState, useContext, Fragment } from "react";
+import { useState, useContext, Fragment, useEffect } from "react";
 import { signOutUser } from "./../../components/utils/firebase.util";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,25 @@ import "./navigation.styles.css";
 
 const Navigation = () => {
   const [searchField, setSearchField] = useState("");
+
+  function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({
+      width: undefined,
+      height: undefined,
+    });
+    useEffect(() => {
+      function handleResize() {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    return windowSize;
+  }
 
   const { pokemon } = useContext(PokeContext);
 
@@ -34,9 +53,7 @@ const Navigation = () => {
   };
 
   const onBlur = () => {
-    // setTimeout(() => {
     setSearchField("");
-    // });
   };
 
   const submitHandler = (event) => {
@@ -44,6 +61,8 @@ const Navigation = () => {
     setSearchField("");
     navigate("/search", { state: { filteredPokemon, searchField } });
   };
+
+  let winSize = useWindowSize();
 
   const userFromStorage = localStorage.getItem("user");
 
@@ -53,6 +72,35 @@ const Navigation = () => {
         <Link className="logo-container" to="/">
           <img alt="logo" src="https://via.placeholder.com/160x80" />
         </Link>
+        {winSize.width >= 581 ? (
+          <div className="searchcard-container">
+            <SearchBox
+              className="search-box"
+              onChangeHandler={onSearchChange}
+              placeholder="Search pokemon"
+              onSubmitHandler={submitHandler}
+              value={searchField}
+            />
+            <div className="search-card-container">
+              {searchField.length > 1
+                ? filteredPokemon
+                    .filter((_, idx) => idx < 4)
+                    .map((pokemon) => (
+                      <div key={pokemon.id} className="position-relative">
+                        <Link
+                          onClick={onBlur}
+                          className="search-card-wrapper"
+                          to={`/pokemon/${pokemon.name}`}
+                        >
+                          <SearchCard pokemon={pokemon} />
+                        </Link>
+                      </div>
+                    ))
+                : null}
+            </div>
+          </div>
+        ) : null}
+
         <button
           className="navbar-toggler"
           type="button"
@@ -64,46 +112,43 @@ const Navigation = () => {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon">
-            <ion-icon className="collapse-icon" name="menu-outline"></ion-icon>
+            <ion-icon class="collapse-icon" name="menu-outline"></ion-icon>
           </span>
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto ">
             <li className="nav-item">
-              <div className="searchcard-container">
-                <SearchBox
-                  className="search-box"
-                  onChangeHandler={onSearchChange}
-                  placeholder="Search pokemon"
-                  // onBlurHandler={onBlur}
-                  onSubmitHandler={submitHandler}
-                  value={searchField}
-                />
-                <div className="search-card-container">
-                  {searchField.length > 1
-                    ? filteredPokemon
-                        .filter((_, idx) => idx < 4)
-                        .map((pokemon) => (
-                          <div key={pokemon.id} className="position-relative">
-                            <Link
-                              onClick={onBlur}
-                              className="search-card-wrapper"
-                              to={`/pokemon/${pokemon.name}`}
-                            >
-                              <SearchCard pokemon={pokemon} />
-                            </Link>
-                          </div>
-                        ))
-                    : null}
+              {winSize.width < 581 ? (
+                <div className="searchcard-container">
+                  <SearchBox
+                    className="search-box"
+                    onChangeHandler={onSearchChange}
+                    placeholder="Search pokemon"
+                    onSubmitHandler={submitHandler}
+                    value={searchField}
+                  />
+                  <div className="search-card-container">
+                    {searchField.length > 1
+                      ? filteredPokemon
+                          .filter((_, idx) => idx < 4)
+                          .map((pokemon) => (
+                            <div key={pokemon.id} className="position-relative">
+                              <Link
+                                onClick={onBlur}
+                                className="search-card-wrapper"
+                                to={`/pokemon/${pokemon.name}`}
+                              >
+                                <SearchCard pokemon={pokemon} />
+                              </Link>
+                            </div>
+                          ))
+                      : null}
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </li>
-            <li
-              // data-toggle="collapse"
-
-              className="nav-item"
-            >
+            <li className="nav-item">
               <Link className="nav-link" to="/pokemon">
                 <ion-icon className="nav-icon" name="reader-outline"></ion-icon>
                 <p
@@ -114,17 +159,7 @@ const Navigation = () => {
                 </p>
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                <ion-icon className="nav-icon" name="person-outline"></ion-icon>
-                <p
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                >
-                  Profile
-                </p>
-              </Link>
-            </li>
+
             <li className="nav-item">
               <Link className="nav-link" to="/checkout">
                 <ion-icon className="nav-icon" name="cart-outline"></ion-icon>
@@ -141,11 +176,18 @@ const Navigation = () => {
                 <Fragment>
                   <div className="buttons-container">
                     <div className="nav-link">
-                      <ion-icon
-                        className="nav-icon"
-                        name="checkmark-outline"
-                      ></ion-icon>
-                      {userFromStorage}
+                      <Link className="nav-link" to="/profile">
+                        <ion-icon
+                          className="nav-icon"
+                          name="person-outline"
+                        ></ion-icon>{" "}
+                        <p
+                          data-bs-toggle="collapse"
+                          data-bs-target="#navbarSupportedContent"
+                        >
+                          {userFromStorage}
+                        </p>
+                      </Link>
                     </div>
                   </div>
                 </Fragment>

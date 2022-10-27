@@ -11,7 +11,7 @@ const SearchBox = ({
   return (
     <form onSubmit={onSubmitHandler}>
       <input
-        className={`search-box ${className}`}
+        className={className}
         type="search"
         placeholder={placeholder}
         onChange={onChangeHandler}

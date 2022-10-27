@@ -178,7 +178,7 @@
 
 @media (max-width: 1200px) {
   .container {
-    width: 1000px;
+    width: 100%;
   }
 
   .cards-container {
@@ -195,9 +195,9 @@
 }
 
 @media screen and (max-width: 768px) {
-  .container {
+  /* .container {
     width: 700px;
-  }
+  } */
 
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
@@ -209,13 +209,13 @@
 }
 
 @media screen and (max-width: 576px) {
-  .container {
+  /* .container {
     width: 500px;
-  }
+  } */
 
-  .navbar {
+  /* .navbar {
     width: 500px;
-  }
+  } */
 
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
@@ -227,18 +227,18 @@
 }
 
 @media screen and (max-width: 480px) {
-  .container {
+  /* .container {
     width: 400px;
     padding: 10px;
-  }
+  } */
 
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .navbar {
+  /* .navbar {
     width: 350px;
-  }
+  } */
 
   .wsk-cp-product {
     width: 160px;
@@ -271,4 +271,8 @@
     font-size: 12px;
     padding: 0 5px;
   } */
+}
+
+.test {
+  z-index: 11;
 }
