@@ -4,7 +4,6 @@ const SearchBox = ({
   className,
   placeholder,
   onChangeHandler,
-  // onBlurHandler,
   onSubmitHandler,
   value,
 }) => {
@@ -15,7 +14,6 @@ const SearchBox = ({
         type="search"
         placeholder={placeholder}
         onChange={onChangeHandler}
-        // onBlur={onBlurHandler}
         value={value}
       />
     </form>

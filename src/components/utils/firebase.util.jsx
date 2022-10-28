@@ -14,7 +14,15 @@ import {
   EmailAuthProvider,
 } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAOXaNrPDFiWR2AUCKLjbkIuMAw0a4d4TM",
@@ -37,6 +45,40 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
 
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "pokemon");
+
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+  const pokemonMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const {
+      id,
+      name,
+      url,
+      type,
+      evolution,
+      price,
+      discountPrice,
+      new: newPokemon,
+    } = docSnapshot.data();
+
+    acc[id] = {
+      name: name,
+      url: url,
+      evolution: evolution,
+      price: price,
+      discountPrice: discountPrice,
+      type: type,
+      new: newPokemon,
+      id: id,
+    };
+    return acc;
+  }, {});
+
+  return pokemonMap;
+};
+
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
@@ -49,11 +91,8 @@ export const createUserDocumentFromAuth = async (
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
 
-    console.log(userAuth);
-
     const createdAt = new Date();
     createdAt.setHours(createdAt.getHours() + 3);
-    console.log(createdAt);
     try {
       await setDoc(userDocRef, {
         displayName,
@@ -62,9 +101,8 @@ export const createUserDocumentFromAuth = async (
         orders: [],
         ...additionalInformation,
       });
-      // console.log(userDocRef);
     } catch (error) {
-      console.log("error creating the user", error.message);
+      alert("error creating the user", error.message);
     }
   }
 
@@ -84,8 +122,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => {
   await signOut(auth);
-  localStorage.removeItem("user");
-  console.log("signed out");
+  localStorage.clear();
 };
 
 export const onAuthStateChangedListener = (callback) =>
@@ -100,8 +137,6 @@ export const getUserDocs = async (userAuth) => {
 };
 
 export const addOrder = async (order, userAuth) => {
-  // console.log(order);
-
   const userDocRef = doc(db, "users", userAuth.uid);
 
   const docSnap = await getDoc(userDocRef);
@@ -112,10 +147,6 @@ export const addOrder = async (order, userAuth) => {
     docWithNewOrder = [];
   }
 
-  // JSON.parse(docWithNewOrder);
-
-  console.log(typeof docWithNewOrder);
-
   const date = new Date();
   date
     .setHours(date.getHours() + 3)
@@ -125,6 +156,8 @@ export const addOrder = async (order, userAuth) => {
   order.unshift({ date });
 
   docWithNewOrder.push(JSON.stringify(order));
+
+  localStorage.removeItem("cart");
 
   await setDoc(userDocRef, { orders: docWithNewOrder }, { merge: true });
 };
@@ -150,20 +183,19 @@ export const changeUserEmail = async (email, userAuth, password) => {
 
   await updateEmail(auth.currentUser, email)
     .then(() => {
-      // console.log("Email updated");
-
       setDoc(userDocRef, { email: email }, { merge: true });
       updateProfile(userAuth, { email: email });
+      alert("Email updated");
     })
-    .catch(() => {
-      // console.log(err);
+    .catch((err) => {
+      alert(err);
       check = true;
     });
 
   return check;
 };
 
-export const changeUserPassword = async (email, userAuth, oldPass, newPass) => {
+export const changeUserPassword = async (email, oldPass, newPass) => {
   let check = 0;
 
   const credentials = EmailAuthProvider.credential(email, oldPass);
@@ -171,18 +203,17 @@ export const changeUserPassword = async (email, userAuth, oldPass, newPass) => {
     .then(() => {
       updatePassword(auth.currentUser, newPass)
         .then(() => {
-          console.log("password updated");
+          alert("password updated");
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
           check = err;
         });
     })
     .catch((err) => {
-      console.log(err);
+      alert(err);
       check = err;
     });
-  // }
 
   return check;
 };

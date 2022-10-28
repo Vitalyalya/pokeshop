@@ -14,13 +14,13 @@ const Search = () => {
               return <PokeCard key={pokemon.id} pokemon={pokemon} />;
             })
           ) : (
-            <div className="container cart-empty">
+            <h2 className="container loading">
               No results for {location.state.searchField}
-            </div>
+            </h2>
           )}
         </div>
       ) : (
-        <div className="cards-container container cart-empty">No results</div>
+        <h2 className="cards-container container loading">No results</h2>
       )}
     </div>
   );

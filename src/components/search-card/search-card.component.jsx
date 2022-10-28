@@ -1,11 +1,12 @@
 import "./search-card.styles.css";
-// import { Link } from "react-router-dom";
+
+import { Fragment } from "react";
 
 const SearchCard = ({ pokemon }) => {
   const { name, id, type, price, discountPrice } = pokemon;
 
   return (
-    <>
+    <Fragment>
       <picture className="search-card-img">
         <img
           alt={name}
@@ -46,8 +47,7 @@ const SearchCard = ({ pokemon }) => {
           <h6 className="mb-0 ">{price} 円</h6>
         )}
       </div>
-    </>
-    // </Link>
+    </Fragment>
   );
 };
 

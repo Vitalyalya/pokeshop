@@ -22,10 +22,6 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  // const resetFormFields = () => {
-  //   setFormFields(defaultFormFields);
-  // };
-
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -45,7 +41,6 @@ const SignUpForm = () => {
 
       await createUserDocumentFromAuth(user, { displayName });
       await updateProfile(user, { displayName });
-      // setCurrentUser(user);
 
       localStorage.setItem("user", displayName);
       navigate("/");
@@ -54,7 +49,7 @@ const SignUpForm = () => {
       if (error.code === "auth/email-already-in-use") {
         alert("Cannot create user, email already in use");
       } else {
-        console.log("user creation encountered an error", error);
+        alert("user creation encountered an error", error);
       }
     }
   };
@@ -72,7 +67,6 @@ const SignUpForm = () => {
       <h1>Not registered?</h1>
       <div className="card-sign-up ">
         <form onSubmit={handleSubmit}>
-          {/* <label className="input">Display name</label> */}
           <FormInput
             label="Display Name"
             className="input__field"

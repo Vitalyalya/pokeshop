@@ -1,6 +1,5 @@
 const OrderDate = ({ dateString }) => {
   const date = dateString.split("T");
-  // console.log(date);
 
   return (
     <h2>

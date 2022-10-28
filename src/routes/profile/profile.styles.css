@@ -21,12 +21,8 @@
 
   gap: 10px;
 
-  /* width: 400px; */
-
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
-
-  /* flex-direction: row; */
 }
 
 .enter-pass-again {
@@ -44,7 +40,6 @@
 .enter-pass-input-button {
   display: grid;
   grid-template-columns: 4fr 1fr;
-  /* width: 400px; */
   gap: 30px;
 }
 

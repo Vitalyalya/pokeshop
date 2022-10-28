@@ -16,6 +16,8 @@ import "./navigation.styles.css";
 const Navigation = () => {
   const [searchField, setSearchField] = useState("");
 
+  const pArray = document.getElementsByTagName("p");
+
   function useWindowSize() {
     const [windowSize, setWindowSize] = useState({
       width: undefined,
@@ -34,12 +36,11 @@ const Navigation = () => {
     }, []);
     return windowSize;
   }
-
   const { pokemon } = useContext(PokeContext);
 
   const { currentUser } = useContext(UserContext);
 
-  const filteredPokemon = pokemon.filter((pokemon) => {
+  const filteredPokemon = Object.values(pokemon).filter((pokemon) => {
     return pokemon.name.toLocaleLowerCase().includes(searchField);
   });
 
@@ -62,6 +63,25 @@ const Navigation = () => {
     navigate("/search", { state: { filteredPokemon, searchField } });
   };
 
+  const signOutUserhandler = () => {
+    signOutUser();
+    navigate("/");
+  };
+
+  const onClickHandler = () => {
+    Array.from(pArray).forEach((pTag) => {
+      pTag.setAttribute("data-bs-toggle", "collapse");
+      pTag.setAttribute("data-bs-target", "#navbarSupportedContent");
+    });
+  };
+
+  const pHandler = () => {
+    Array.from(pArray).forEach((pTag) => {
+      pTag.setAttribute("data-bs-toggle", "");
+      pTag.setAttribute("data-bs-target", "");
+    });
+  };
+
   let winSize = useWindowSize();
 
   const userFromStorage = localStorage.getItem("user");
@@ -70,7 +90,10 @@ const Navigation = () => {
     <Fragment>
       <nav className="navbar navbar-expand-lg container">
         <Link className="logo-container" to="/">
-          <img alt="logo" src="https://via.placeholder.com/160x80" />
+          <img
+            alt="logo"
+            src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/87044f58-c765-43c5-bc51-8613e3ac7ab1/ddew4m7-c69a2c41-518f-48ca-ba35-8ab1895464e0.png/v1/fill/w_1385,h_577,strp/logo_pokemon_recto__editable_con_photoshop_by_marisadiecisiete_ddew4m7-pre.png"
+          />
         </Link>
         {winSize.width >= 581 ? (
           <div className="searchcard-container">
@@ -83,7 +106,7 @@ const Navigation = () => {
             />
             <div className="search-card-container">
               {searchField.length > 1
-                ? filteredPokemon
+                ? Object.values(filteredPokemon)
                     .filter((_, idx) => idx < 4)
                     .map((pokemon) => (
                       <div key={pokemon.id} className="position-relative">
@@ -103,6 +126,7 @@ const Navigation = () => {
 
         <button
           className="navbar-toggler"
+          id="toggler"
           type="button"
           data-toggle="collapse"
           data-bs-toggle="collapse"
@@ -110,6 +134,7 @@ const Navigation = () => {
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          onClick={onClickHandler}
         >
           <span className="navbar-toggler-icon">
             <ion-icon class="collapse-icon" name="menu-outline"></ion-icon>
@@ -130,7 +155,7 @@ const Navigation = () => {
                   />
                   <div className="search-card-container">
                     {searchField.length > 1
-                      ? filteredPokemon
+                      ? Object.values(filteredPokemon)
                           .filter((_, idx) => idx < 4)
                           .map((pokemon) => (
                             <div key={pokemon.id} className="position-relative">
@@ -151,24 +176,14 @@ const Navigation = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/pokemon">
                 <ion-icon className="nav-icon" name="reader-outline"></ion-icon>
-                <p
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                >
-                  Pokemon
-                </p>
+                <p onClick={pHandler}>Pokemon</p>
               </Link>
             </li>
 
             <li className="nav-item">
               <Link className="nav-link" to="/checkout">
                 <ion-icon className="nav-icon" name="cart-outline"></ion-icon>
-                <p
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                >
-                  Cart
-                </p>
+                <p onClick={pHandler}>Cart</p>
               </Link>
             </li>
             <li className="nav-item">
@@ -181,12 +196,7 @@ const Navigation = () => {
                           className="nav-icon"
                           name="person-outline"
                         ></ion-icon>{" "}
-                        <p
-                          data-bs-toggle="collapse"
-                          data-bs-target="#navbarSupportedContent"
-                        >
-                          {userFromStorage}
-                        </p>
+                        <p onClick={pHandler}>{userFromStorage}</p>
                       </Link>
                     </div>
                   </div>
@@ -220,14 +230,7 @@ const Navigation = () => {
                 </Fragment>
               ) : (
                 <div className="nav-item">
-                  <Link className="nav-link" onClick={signOutUser}>
-                    <Button
-                      data-bs-toggle="collapse"
-                      data-bs-target="#navbarSupportedContent"
-                    >
-                      Sign out
-                    </Button>
-                  </Link>
+                  <Button onClick={signOutUserhandler}>Sign out</Button>
                 </div>
               )}
             </li>

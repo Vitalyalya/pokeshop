@@ -5,9 +5,9 @@
   gap: 20px;
 }
 
-/* .navbar-collapse {
-  padding-left: 15px;
-} */
+.logo-container img {
+  width: 180px;
+}
 
 .navbar {
   gap: 30px;
@@ -98,7 +98,6 @@
   }
 
   .navbar {
-    /* padding: 10px 0; */
     margin: 0;
   }
 
@@ -106,9 +105,3 @@
     padding-top: 30px;
   }
 }
-
-/* @media (max-width: 490px) {
-  .search-box {
-    width: 130px;
-  }
-} */

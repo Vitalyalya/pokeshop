@@ -1,7 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 
-import "./queries.css";
-
 import Navigation from "./routes/navigation/navigation.component";
 import Home from "./routes/home/home.component";
 import LogInForm from "./components/login-form/login-form";

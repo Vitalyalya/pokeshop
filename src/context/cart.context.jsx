@@ -47,19 +47,15 @@ export const CartContext = createContext({
 });
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const cartItemsCheck = JSON.parse(localStorage.getItem("cart"));
+  let cartItemsVar = [];
+  if (cartItemsCheck) {
+    cartItemsVar = cartItemsCheck;
+  }
 
-  const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState(cartItemsVar);
 
   const [cartTotal, setCartTotal] = useState(0);
-
-  useEffect(() => {
-    const newCartCount = cartItems.reduce(
-      (total, cartItem) => total + cartItem.quantity,
-      0
-    );
-    setCartCount(newCartCount);
-  }, [cartItems]);
 
   useEffect(() => {
     const newCartTotal = cartItems.reduce(
@@ -67,7 +63,10 @@ export const CartProvider = ({ children }) => {
       0
     );
     setCartTotal(newCartTotal);
-  }, [cartItems]);
+    if (cartItems.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+  }, [cartItems, cartItemsCheck]);
 
   const removeItemFromCart = (productToRemove) => {
     setCartItems(removeCartItem(cartItems, productToRemove));
@@ -82,7 +81,6 @@ export const CartProvider = ({ children }) => {
   };
 
   const addItemToCart = (productToAdd) => {
-    // console.log(productToAdd);
     setCartItems(addCartItem(cartItems, productToAdd));
   };
 
@@ -90,7 +88,6 @@ export const CartProvider = ({ children }) => {
     addItemToCart,
     setCartItems,
     cartItems,
-    cartCount,
     cartTotal,
     removeItemFromCart,
     reduceItemQuantity,

@@ -14,6 +14,8 @@ const Checkout = () => {
   const { currentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const cartItemsFromStorage = JSON.parse(localStorage.getItem("cart"));
+
   const addOrderHandler = () => {
     if (currentUser) {
       addOrder(cartItems, currentUser);
@@ -45,16 +47,18 @@ const Checkout = () => {
       {cartItems.length ? (
         cartItems.map((item) => <CartItem key={item.id} pokemon={item} />)
       ) : (
-        <div className="cart-empty">Cart is empty</div>
+        <h2 className="loading">Cart is empty</h2>
       )}
-      {/* {
-      cartItems.map((item) => (
-        <CartItem key={item.id} pokemon={item} />
-      ))
-      } */}
+      {/* {cartItemsFromStorage ? (
+        cartItemsFromStorage.map((item) => (
+          <CartItem key={item.id} pokemon={item} />
+        ))
+      ) : (
+        <h2 className="loading">Cart is empty</h2>
+      )} */}
       <div className="total">
         {!cartTotal ? `TOTAL: ${cartTotal}` : `TOTAL: ${cartTotal} 円`}
-        {cartItems.length ? (
+        {cartItemsFromStorage ? (
           <Button onClick={addOrderHandler}>Place an Order</Button>
         ) : null}
       </div>

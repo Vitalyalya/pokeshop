@@ -24,6 +24,12 @@ h1 {
   margin: 50px 0;
 }
 
+@media (max-width: 1200px) {
+  .container {
+    width: 100%;
+  }
+}
+
 @media (max-width: 800px) {
   .button-home {
     margin: 20px 0;

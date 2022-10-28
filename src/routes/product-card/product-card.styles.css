@@ -3,6 +3,12 @@
   text-transform: capitalize;
 }
 
+.product-name {
+  text-transform: capitalize;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
 .product-container {
   display: flex;
   width: 100%;
@@ -127,7 +133,6 @@
   .profile-container-empty {
     width: 400px;
     margin: 0 auto;
-    /* font-size: 20px; */
   }
 
   .checkout-item-container {

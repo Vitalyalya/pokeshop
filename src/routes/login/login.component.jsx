@@ -5,6 +5,8 @@ import {
   createUserDocumentFromAuth,
 } from "../../components/utils/firebase.util";
 
+import { Fragment } from "react";
+
 const Login = () => {
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
@@ -12,12 +14,12 @@ const Login = () => {
   };
 
   return (
-    <>
+    <Fragment>
       <div className="container login-card">
         <Button onClick={logGoogleUser}>signInWithGoogle</Button>
       </div>
       <LoginForm />
-    </>
+    </Fragment>
   );
 };
 

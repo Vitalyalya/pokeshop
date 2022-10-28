@@ -1,6 +1,6 @@
 import "./home.styles.css";
 
-import { useContext } from "react";
+import { useContext, Fragment } from "react";
 import { PokeContext } from "../../context/pokemon.context";
 
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ const Home = () => {
   const discPokemon = [];
   const newPokemon = [];
 
-  pokemon.map((pokemon) => {
+  Object.values(pokemon).map((pokemon) => {
     if (pokemon.discountPrice) {
       discPokemon.push(pokemon);
     } else if (pokemon.new) {
@@ -33,37 +33,50 @@ const Home = () => {
       <Carousel />
       <section>
         <h2 className="mt-5">Discounts:</h2>
-        <div className="cards-container">
-          {discPokemon
-            .filter((_, idx) => idx < 8)
-            .map((pokemon) => {
-              return <PokeCard key={pokemon.id} pokemon={pokemon} />;
-            })}
-        </div>
-        <div className="text-center button-home">
-          <Link to="/pokemon">
-            <Button onClick={() => clickHandler("discountPrice:null")}>
-              More Discounts
-            </Button>
-          </Link>
-        </div>
+        {Object.values(pokemon).length ? (
+          <Fragment>
+            <div className="cards-container">
+              {discPokemon
+                .filter((_, idx) => idx < 8)
+                .map((pokemon) => {
+                  return <PokeCard key={pokemon.id} pokemon={pokemon} />;
+                })}
+            </div>
+            <div className="text-center button-home">
+              <Link to="/pokemon">
+                <Button onClick={() => clickHandler("discountPrice:null")}>
+                  More Discounts
+                </Button>
+              </Link>
+            </div>
+          </Fragment>
+        ) : (
+          <h2 className="loading text-center">Loading</h2>
+        )}
       </section>
-      <h2 className="mt-5">New arrivals:</h2>
-
-      <div className="cards-container">
-        {newPokemon
-          .filter((_, idx) => idx < 8)
-          .map((pokemon) => {
-            return <PokeCard key={pokemon.id} pokemon={pokemon} />;
-          })}
-      </div>
-      <div className="text-center button-home">
-        <Link to="/pokemon">
-          <Button onClick={() => clickHandler("new:true")}>
-            More New Pokemon
-          </Button>
-        </Link>
-      </div>
+      <section>
+        <h2 className="mt-5">New arrivals:</h2>
+        {Object.values(pokemon).length ? (
+          <Fragment>
+            <div className="cards-container">
+              {newPokemon
+                .filter((_, idx) => idx < 8)
+                .map((pokemon) => {
+                  return <PokeCard key={pokemon.id} pokemon={pokemon} />;
+                })}
+            </div>
+            <div className="text-center button-home">
+              <Link to="/pokemon">
+                <Button onClick={() => clickHandler("new:true")}>
+                  More New Pokemon
+                </Button>
+              </Link>
+            </div>
+          </Fragment>
+        ) : (
+          <h2 className="loading text-center">Loading</h2>
+        )}
+      </section>
     </div>
   );
 };

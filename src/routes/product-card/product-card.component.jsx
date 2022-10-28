@@ -1,6 +1,6 @@
 import "./product-card.styles.css";
 
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, Fragment } from "react";
 import { useParams } from "react-router-dom";
 
 import { PokeContext } from "../../context/pokemon.context";
@@ -15,7 +15,9 @@ const ProductCard = () => {
 
   const [chosenPokemon, setStatePokemon] = useState(name);
 
-  const { pokemon } = useContext(PokeContext);
+  let { pokemon } = useContext(PokeContext);
+
+  pokemon = Object.values(pokemon);
 
   useEffect(() => {
     for (let i = 0; i < pokemon.length; i++) {
@@ -28,58 +30,74 @@ const ProductCard = () => {
 
   const addPokemonToCart = () => {
     addItemToCart(chosenPokemon);
-    const datetime = new Date();
-    datetime.setHours(datetime.getHours() + 3);
-    console.log(datetime);
+    setShowQuantity(false);
+
+    setTimeout(() => {
+      setShowQuantity(true);
+    }, 1500);
   };
+
+  const [showQuantity, setShowQuantity] = useState(true);
 
   return (
     <div className="container product-container">
-      <div className="product-image">
-        <img
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${chosenPokemon.id}.png`}
-          alt="{chosenPokemon.name"
-        />
-      </div>
-      <div className="product-description">
-        <ul className="product-list">
-          <li>ID: {chosenPokemon.id}</li>
-          <li>Evolution: {chosenPokemon.evolution}</li>
-          {typeof chosenPokemon.type === "string" ? (
-            <li className="product-type">Type: {chosenPokemon.type}</li>
-          ) : (
-            <li>
-              Types:{" "}
-              {chosenPokemon.type
-                ? chosenPokemon.type.map((slot) => (
-                    <span key={slot} className="product-type">
-                      {slot}{" "}
-                    </span>
-                  ))
-                : null}
-            </li>
-          )}
-        </ul>
-        {chosenPokemon.discountPrice ? (
-          <div className="price-block">
-            <div className="prices">
-              <span className="discount-price">
-                {chosenPokemon.discountPrice} 円
-              </span>
+      {!chosenPokemon.length ? (
+        <Fragment>
+          <div className="product-image">
+            <img
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${chosenPokemon.id}.png`}
+              alt={chosenPokemon.name}
+            />
+          </div>
+          <div className="product-description">
+            <ul className="product-list">
+              <li className="product-name">{chosenPokemon.name}</li>
 
-              <span className="normal-price">{chosenPokemon.price} 円</span>
-            </div>
-            <Button onClick={addPokemonToCart}> Buy </Button>
+              <li>ID: {chosenPokemon.id}</li>
+              <li>Evolution: {chosenPokemon.evolution}</li>
+              {typeof chosenPokemon.type === "string" ? (
+                <li className="product-type">Type: {chosenPokemon.type}</li>
+              ) : (
+                <li>
+                  Types:{" "}
+                  {chosenPokemon.type
+                    ? chosenPokemon.type.map((slot) => (
+                        <span key={slot} className="product-type">
+                          {slot}{" "}
+                        </span>
+                      ))
+                    : null}
+                </li>
+              )}
+            </ul>
+            {chosenPokemon.discountPrice ? (
+              <div className="price-block">
+                <div className="prices">
+                  <span className="discount-price">
+                    {chosenPokemon.discountPrice} 円
+                  </span>
+
+                  <span className="normal-price">{chosenPokemon.price} 円</span>
+                </div>
+                <Button onClick={addPokemonToCart}>
+                  {showQuantity ? "To cart" : "✔️"}
+                </Button>
+              </div>
+            ) : (
+              <div className="price-block">
+                <div className="prices">
+                  <span className="normal-price">{chosenPokemon.price} 円</span>
+                </div>
+                <Button onClick={addPokemonToCart}>
+                  {showQuantity ? "To cart" : "✔️"}
+                </Button>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="price-block">
-            <div className="prices">
-              <span className="normal-price">{chosenPokemon.price} 円</span>
-            </div>
-            <Button onClick={addPokemonToCart}> Buy </Button>
-          </div>
-        )}
-      </div>
+        </Fragment>
+      ) : (
+        <h2 className="loading">Loading</h2>
+      )}
     </div>
   );
 };

@@ -3,8 +3,6 @@ import "./order-item.styles.css";
 const OrderItem = ({ pokemon }) => {
   const { name, id, type, evolution, price, quantity } = pokemon;
 
-  // console.log(pokemon);
-
   return (
     <div className="checkout-item-container">
       <div className="image-container">

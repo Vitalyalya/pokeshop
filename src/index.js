@@ -17,13 +17,13 @@ root.render(
   // <React.StrictMode>
   <BrowserRouter>
     <ScrollToTop />
-    <PokeProvider>
-      <UserProvider>
+    <UserProvider>
+      <PokeProvider>
         <CartProvider>
           <App />
         </CartProvider>
-      </UserProvider>
-    </PokeProvider>
+      </PokeProvider>
+    </UserProvider>
   </BrowserRouter>
   // </React.StrictMode>
 );

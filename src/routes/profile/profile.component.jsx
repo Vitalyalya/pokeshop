@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, Fragment } from "react";
 import { UserContext } from "../../context/user.context";
 import { getUserDocs } from "../../components/utils/firebase.util";
 
@@ -66,7 +66,6 @@ const ProfilePage = () => {
     );
     setFormFields({ ...formFields, oldPass: "", newPass: "" });
 
-    console.log(check);
     if (check) {
       switch (check.code) {
         case "auth/wrong-password":
@@ -104,9 +103,9 @@ const ProfilePage = () => {
     const ordersList = orders.orders.map((order) => JSON.parse(order));
 
     return (
-      <>
+      <Fragment>
         {currentUser ? (
-          <>
+          <Fragment>
             {currentUser.providerData[0].providerId !== "google.com" ? (
               <div className="container profile-info">
                 <div className="name-email-block">
@@ -151,7 +150,7 @@ const ProfilePage = () => {
                     <div className="enter-pass-input-button">
                       <input
                         className="input__field profile-input"
-                        // type="password"
+                        type="password"
                         value={password}
                         onChange={handleChange}
                         name="password"
@@ -160,14 +159,13 @@ const ProfilePage = () => {
                     </div>
                   </div>
                 ) : null}
-                {/* {<Message />} */}
                 <div className="enter-pass-again">
                   <div>
                     <p className="enter-pass-message">Old password:</p>
                     <div className="enter-pass-input">
                       <input
                         className="input__field profile-input"
-                        // type="password"
+                        type="password"
                         value={oldPass}
                         onChange={handleChange}
                         name="oldPass"
@@ -179,7 +177,7 @@ const ProfilePage = () => {
                     <div className="enter-pass-input">
                       <input
                         className="input__field profile-input"
-                        // type="password"
+                        type="password"
                         value={newPass}
                         onChange={handleChange}
                         name="newPass"
@@ -198,38 +196,38 @@ const ProfilePage = () => {
                   <Orders key={order[0].date} ordersList={order} />
                 ))
               ) : (
-                <div className="cart-empty">No orders</div>
+                <h2 className="loading">No orders</h2>
               )}
             </div>
-          </>
+          </Fragment>
         ) : (
-          <div className="profile-container-empty cart-empty">
-            Please{" "}
-            <Link to="/login">
+          <h2 className="profile-container-empty loading">
+            Please <Link to="/log-in">log in</Link>{" "}
+            {/* <Link to="/login">
               <Button buttonType="light">Log In</Button>
             </Link>{" "}
-            or{" "}
-            <Link to="/sign-up">
-              <Button>Sign Up</Button>
-            </Link>
-          </div>
+            or{" "} */}
+            or
+            <Link to="/sign-up">sign Up</Link>
+            {/* <Button>Sign Up</Button> */}
+          </h2>
         )}
-      </>
+      </Fragment>
     );
   } else if (localStorage.getItem("user") !== null) {
-    return <div className="profile-container cart-empty">Loading...</div>;
+    return <h2 className="profile-container loading">Loading</h2>;
   } else
     return (
-      <div className="profile-container-empty cart-empty">
+      <h2 className="profile-container-empty loading">
         Please{" "}
-        <Link to="/login">
-          <Button buttonType="light">Log In</Button>
-        </Link>{" "}
-        or{" "}
-        <Link to="/sign-up">
-          <Button>Sign Up</Button>
-        </Link>
-      </div>
+        <u>
+          <Link to="/login">log in</Link>{" "}
+        </u>
+        or
+        <u>
+          <Link to="/sign-up">sign up</Link>
+        </u>
+      </h2>
     );
 };
 

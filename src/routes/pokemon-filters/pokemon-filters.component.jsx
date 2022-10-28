@@ -1,5 +1,3 @@
-import "./pokemon-filters.styles.css";
-
 import { useContext, useEffect } from "react";
 import { PokeContext } from "../../context/pokemon.context";
 
@@ -37,25 +35,31 @@ const PokemonFilters = () => {
   };
 
   useEffect(() => {
-    pokemon.map((pokemon) => {
+    Object.values(pokemon).map((pokemon) => {
       if (filterSettings === "discountprice:null") {
         checkPokemon(pokemon, true);
       } else {
         checkPokemon(pokemon, false);
       }
+
       return pokeArr;
     });
     setFilteredPokemon(pokeArr);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterSettings, pokemon]);
 
   return (
     <div className="container">
       <DropdownPanel />
-      <div className="cards-container">
-        {filteredPokemon.map((pokemon) => {
-          return <PokeCard key={pokemon.id} pokemon={pokemon} />;
-        })}
-      </div>
+      {Object.values(pokemon).length ? (
+        <div className="cards-container">
+          {Object.values(filteredPokemon).map((pokemon) => {
+            return <PokeCard key={pokemon.id} pokemon={pokemon} />;
+          })}
+        </div>
+      ) : (
+        <h2 className="loading text-center">Loading</h2>
+      )}
     </div>
   );
 };
