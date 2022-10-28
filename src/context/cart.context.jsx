@@ -26,7 +26,9 @@ const reduceByOne = (cartItems, productToReduce) => {
         ? { ...cartItem, quantity: cartItem.quantity - 1 }
         : cartItem
     );
-  } else return cartItems;
+  } else {
+    return cartItems;
+  }
 };
 
 const increaseByOne = (cartItems, productToReduce) => {
@@ -63,7 +65,7 @@ export const CartProvider = ({ children }) => {
       0
     );
     setCartTotal(newCartTotal);
-    if (cartItems.length > 0) {
+    if (cartItems.length >= 0) {
       localStorage.setItem("cart", JSON.stringify(cartItems));
     }
   }, [cartItems, cartItemsCheck]);
