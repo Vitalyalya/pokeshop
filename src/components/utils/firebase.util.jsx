@@ -148,14 +148,15 @@ export const addOrder = async (order, userAuth) => {
   }
 
   const date = new Date();
-  date
-    .setHours(date.getHours() + 3)
-    .toString()
-    .slice(0, -5);
+
+  date.setHours(date.getHours() + 2).toString();
+
+  console.log({ date });
 
   order.unshift({ date });
 
   docWithNewOrder.push(JSON.stringify(order));
+  console.log(docWithNewOrder);
 
   localStorage.removeItem("cart");
 
@@ -167,8 +168,14 @@ export const changeUserData = async (name, userAuth) => {
   await setDoc(userDocRef, { displayName: name }, { merge: true });
 
   localStorage.setItem("user", name);
-  window.location.reload();
-  await updateProfile(userAuth, { displayName: name });
+  await updateProfile(userAuth, { displayName: name })
+    .then(() => {
+      alert("Name updated");
+      window.location.reload();
+    })
+    .catch((err) => {
+      alert(err);
+    });
 };
 
 export const changeUserEmail = async (email, userAuth, password) => {

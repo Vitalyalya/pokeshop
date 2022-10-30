@@ -1,5 +1,5 @@
 const OrderDate = ({ dateString }) => {
-  const date = dateString.split("T");
+  const date = dateString.slice(0, -5).split("T");
 
   return (
     <h2>

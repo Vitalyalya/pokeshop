@@ -23,6 +23,14 @@ const PokeCard = ({ pokemon }) => {
     }, 1500);
   };
 
+  let date = new Date();
+  date = date
+    .setHours(date.getHours() + 2)
+    .toString()
+    .slice(0, -5);
+
+  console.log(date);
+
   return (
     <Fragment>
       <div className="wsk-cp-product">

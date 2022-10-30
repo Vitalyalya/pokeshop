@@ -58,12 +58,7 @@ const ProfilePage = () => {
   };
 
   const changePasswordHandler = async () => {
-    const check = await changeUserPassword(
-      email,
-      currentUser,
-      oldPass,
-      newPass
-    );
+    const check = await changeUserPassword(email, oldPass, newPass);
     setFormFields({ ...formFields, oldPass: "", newPass: "" });
 
     if (check) {
