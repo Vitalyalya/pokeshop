@@ -3,6 +3,7 @@ import { PokeContext } from "../../context/pokemon.context";
 
 import DropdownPanel from "../../components/dropdowns/dropdowns.component";
 import PokeCard from "../../components/card/card.component";
+import Loader from "../../components/loader/loader.component";
 
 const PokemonFilters = () => {
   const { filterSettings, filteredPokemon, setFilteredPokemon, pokemon } =
@@ -58,7 +59,9 @@ const PokemonFilters = () => {
           })}
         </div>
       ) : (
-        <h2 className="loading text-center">Loading</h2>
+        <div className="cards-container">
+          <Loader />
+        </div>
       )}
     </div>
   );

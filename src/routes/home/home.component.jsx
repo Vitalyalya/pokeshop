@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import PokeCard from "../../components/card/card.component";
 import Carousel from "../../components/carousel/carousel.component";
 import Button from "../../components/button/button.component";
+import Loader from "../../components/loader/loader.component";
 
 const Home = () => {
   const { pokemon, setFilterSettings } = useContext(PokeContext);
@@ -32,9 +33,9 @@ const Home = () => {
     <div className="container">
       <Carousel />
       <section>
-        <h2 className="mt-5">Discounts:</h2>
         {Object.values(pokemon).length ? (
           <Fragment>
+            <h2 className="mt-5">Discounts:</h2>
             <div className="cards-container">
               {discPokemon
                 .filter((_, idx) => idx < 8)
@@ -49,15 +50,11 @@ const Home = () => {
                 </Button>
               </Link>
             </div>
-          </Fragment>
-        ) : (
-          <h2 className="loading text-center">Loading</h2>
-        )}
-      </section>
-      <section>
-        <h2 className="mt-5">New arrivals:</h2>
-        {Object.values(pokemon).length ? (
-          <Fragment>
+            {/* </Fragment> */}
+
+            <h2 className="mt-5">New arrivals:</h2>
+
+            {/* <Fragment> */}
             <div className="cards-container">
               {newPokemon
                 .filter((_, idx) => idx < 8)
@@ -74,7 +71,9 @@ const Home = () => {
             </div>
           </Fragment>
         ) : (
-          <h2 className="loading text-center">Loading</h2>
+          <div className="cards-container">
+            <Loader />
+          </div>
         )}
       </section>
     </div>

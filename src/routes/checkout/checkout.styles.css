@@ -37,6 +37,7 @@
 .loading {
   margin-top: 20px;
   font-size: 28px;
+  position: relative;
 }
 
 @media (max-width: 1000px) {

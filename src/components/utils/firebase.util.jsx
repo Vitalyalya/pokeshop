@@ -149,14 +149,14 @@ export const addOrder = async (order, userAuth) => {
 
   const date = new Date();
 
-  date.setHours(date.getHours() + 2).toString();
-
-  console.log({ date });
+  date
+    .setHours(date.getHours() + 2)
+    .toString()
+    .slice(0, -5);
 
   order.unshift({ date });
 
   docWithNewOrder.push(JSON.stringify(order));
-  console.log(docWithNewOrder);
 
   localStorage.removeItem("cart");
 
@@ -208,14 +208,9 @@ export const changeUserPassword = async (email, oldPass, newPass) => {
   const credentials = EmailAuthProvider.credential(email, oldPass);
   await reauthenticateWithCredential(auth.currentUser, credentials)
     .then(() => {
-      updatePassword(auth.currentUser, newPass)
-        .then(() => {
-          alert("password updated");
-        })
-        .catch((err) => {
-          alert(err);
-          check = err;
-        });
+      updatePassword(auth.currentUser, newPass).then(() => {
+        alert("password updated");
+      });
     })
     .catch((err) => {
       alert(err);

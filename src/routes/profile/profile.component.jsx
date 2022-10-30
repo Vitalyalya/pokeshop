@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import Orders from "../../components/orders/orders.component";
 import Button from "../../components/button/button.component";
 
+import Loader from "../../components/loader/loader.component";
+
 import {
   changeUserData,
   changeUserEmail,
@@ -197,20 +199,18 @@ const ProfilePage = () => {
           </Fragment>
         ) : (
           <h2 className="profile-container-empty loading">
-            Please <Link to="/log-in">log in</Link>{" "}
-            {/* <Link to="/login">
-              <Button buttonType="light">Log In</Button>
-            </Link>{" "}
-            or{" "} */}
-            or
+            Please <Link to="/log-in">log in</Link> or
             <Link to="/sign-up">sign Up</Link>
-            {/* <Button>Sign Up</Button> */}
           </h2>
         )}
       </Fragment>
     );
   } else if (localStorage.getItem("user") !== null) {
-    return <h2 className="profile-container loading">Loading</h2>;
+    return (
+      <div className="cards-container">
+        <Loader />
+      </div>
+    );
   } else
     return (
       <h2 className="profile-container-empty loading">

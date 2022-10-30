@@ -7,6 +7,7 @@ import { PokeContext } from "../../context/pokemon.context";
 import { CartContext } from "../../context/cart.context";
 
 import Button from "../../components/button/button.component";
+import Loader from "../../components/loader/loader.component";
 
 const ProductCard = () => {
   const { name } = useParams();
@@ -96,7 +97,9 @@ const ProductCard = () => {
           </div>
         </Fragment>
       ) : (
-        <h2 className="loading">Loading</h2>
+        <div className="cards-container">
+          <Loader />
+        </div>
       )}
     </div>
   );

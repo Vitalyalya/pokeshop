@@ -16,8 +16,6 @@ const Checkout = () => {
 
   const cartItemsFromStorage = JSON.parse(localStorage.getItem("cart"));
 
-  console.log(cartItemsFromStorage);
-
   const addOrderHandler = () => {
     if (currentUser) {
       addOrder(cartItems, currentUser);
@@ -46,11 +44,6 @@ const Checkout = () => {
           <span>Remove</span>
         </div>
       </div>
-      {/* {cartItems.length ? (
-        cartItems.map((item) => <CartItem key={item.id} pokemon={item} />)
-      ) : (
-        <h2 className="loading">Cart is empty</h2>
-      )} */}
       {cartItemsFromStorage ? (
         cartItemsFromStorage.map((item) => (
           <CartItem key={item.id} pokemon={item} />
@@ -60,7 +53,7 @@ const Checkout = () => {
       )}
       <div className="total">
         {!cartTotal ? `TOTAL: ${cartTotal}` : `TOTAL: ${cartTotal} 円`}
-        {cartItemsFromStorage ? (
+        {cartItemsFromStorage && cartTotal ? (
           <Button onClick={addOrderHandler}>Place an Order</Button>
         ) : null}
       </div>
