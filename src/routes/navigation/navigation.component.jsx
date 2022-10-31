@@ -9,6 +9,8 @@ import Button from "../../components/button/button.component";
 
 import { UserContext } from "./../../context/user.context";
 
+import { CartContext } from "../../context/cart.context";
+
 import { PokeContext } from "../../context/pokemon.context";
 
 import "./navigation.styles.css";
@@ -40,6 +42,8 @@ const Navigation = () => {
 
   const { currentUser } = useContext(UserContext);
 
+  const { setCartItems, setCartTotal } = useContext(CartContext);
+
   const filteredPokemon = Object.values(pokemon).filter((pokemon) => {
     return pokemon.name.toLocaleLowerCase().includes(searchField);
   });
@@ -66,6 +70,9 @@ const Navigation = () => {
   const signOutUserhandler = () => {
     signOutUser();
     navigate("/");
+    localStorage.clear();
+    setCartItems([]);
+    setCartTotal(0);
   };
 
   const onClickHandler = () => {

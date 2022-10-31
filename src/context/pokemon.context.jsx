@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 
 import { getCategoriesAndDocuments } from "../components/utils/firebase.util.jsx";
+// import { addCollectionAndDocuments } from "../components/utils/firebase.util.jsx";
+
+// import POKE_DATA from "./pokemon.js";
 
 export const PokeContext = createContext({
   pokemon: {},
@@ -20,6 +23,10 @@ export const PokeProvider = ({ children }) => {
     };
     getPokemonMap();
   }, []);
+
+  // useEffect(() => {
+  //   addCollectionAndDocuments("pokemon", POKE_DATA);
+  // }, []);
 
   const [filterSettings, setFilterSettings] = useState("");
   const [filteredPokemon, setFilteredPokemon] = useState(pokemon);

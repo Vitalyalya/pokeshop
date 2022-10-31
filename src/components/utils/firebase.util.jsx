@@ -47,35 +47,34 @@ export const db = getFirestore();
 
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "pokemon");
-
   const q = query(collectionRef);
-
   const querySnapshot = await getDocs(q);
-  const pokemonMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const {
-      id,
-      name,
-      url,
-      type,
-      evolution,
-      price,
-      discountPrice,
-      new: newPokemon,
-    } = docSnapshot.data();
 
-    acc[id] = {
-      name: name,
-      url: url,
-      evolution: evolution,
-      price: price,
-      discountPrice: discountPrice,
-      type: type,
-      new: newPokemon,
-      id: id,
-    };
+  const pokemonMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const pokeArr =
+      // id,
+      // name,
+      // url,
+      // type,
+      // evolution,
+      // price,
+      // discountPrice,
+      // new: newPokemon,
+      // name,
+      docSnapshot.data().pokemon;
+    acc = pokeArr;
+    // {
+    //   name: name,
+    //   url: url,
+    //   evolution: evolution,
+    //   price: price,
+    //   discountPrice: discountPrice,
+    //   type: type,
+    //   new: newPokemon,
+    //   id: id,
+    // };
     return acc;
   }, {});
-
   return pokemonMap;
 };
 
@@ -122,7 +121,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => {
   await signOut(auth);
-  localStorage.clear();
 };
 
 export const onAuthStateChangedListener = (callback) =>

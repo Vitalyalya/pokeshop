@@ -52,7 +52,9 @@ const Checkout = () => {
         <h2 className="loading">Cart is empty</h2>
       )}
       <div className="total">
-        {!cartTotal ? `TOTAL: ${cartTotal}` : `TOTAL: ${cartTotal} 円`}
+        {cartItemsFromStorage && cartTotal
+          ? `TOTAL: ${cartTotal} 円`
+          : `TOTAL: 0`}
         {cartItemsFromStorage && cartTotal ? (
           <Button onClick={addOrderHandler}>Place an Order</Button>
         ) : null}
