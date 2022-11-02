@@ -3,7 +3,7 @@ This is an e-commerce website that allows you to view, pick and purchase a pokem
 Live here: 
 https://pokeshop-vitalii-b.netlify.app/
 
-Home, product details, cart / checkout and profile pages, registration (along with ability to change name, email and password) and past orders. 
+Home, product details, cart / checkout and profile pages, search, registration (along with ability to change name, email and password) and past orders. 
 
 Built using React, Router, Hooks, Context and a little of Bootstrap for good measure. Fully responsive and ready to be tested.
 
